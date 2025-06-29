@@ -1,4 +1,4 @@
-Sim, é possível usar o **AIDE** no seu smartphone Android para adicionar bibliotecas do Google AdMob ao seu projeto e testar anúncios! Vou te orientar nos passos principais:
+umSim, é possível usar o **AIDE** no seu smartphone Android para adicionar bibliotecas do Google AdMob ao seu projeto e testar anúncios! Vou te orientar nos passos principais:
 
 ### 1. Adicionar as bibliotecas do Google AdMob
 Você precisa adicionar as dependências do AdMob (Google Mobile Ads SDK) ao seu projeto. No Android Studio, isso seria feito no arquivo `build.gradle`, mas no AIDE, normalmente há um arquivo chamado `build.gradle` ou, em projetos antigos, você pode precisar baixar e importar os `.jar` manualmente.
@@ -65,3 +65,95 @@ Os IDs acima são **de teste** e recomendados pelo Google para evitar bloqueios 
 4. Compile no AIDE e execute no seu Android.
 
 Se quiser exemplos de código completos ou tiver dúvidas sobre como importar a biblioteca no AIDE (com Gradle ou manualmente), me avise!
+
+/*
+*
+*
+*/
+
+Claro, posso te ajudar com exemplos de código completos para exibir anúncios de teste do Google AdMob em um app Android, além de explicar como importar bibliotecas manualmente no AIDE.
+
+---
+
+## 1. Exemplo Completo de Código para Banner AdMob (anúncio de banner)
+
+### **a) AndroidManifest.xml**
+Adicione dentro da tag `<application>`:
+```xml
+<meta-data
+    android:name="com.google.android.gms.ads.APPLICATION_ID"
+    android:value="ca-app-pub-3940256099942544~3347511713"/>
+```
+
+### **b) activity_main.xml** (ou outro layout que você for usar)
+Adicione dentro do layout:
+```xml
+<com.google.android.gms.ads.AdView
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/adView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    ads:adSize="BANNER"
+    ads:adUnitId="ca-app-pub-3940256099942544/6300978111"/>
+```
+
+### **c) MainActivity.java**
+Adicione o seguinte código:
+```java
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
+public class MainActivity extends AppCompatActivity {
+    private AdView adView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        MobileAds.initialize(this, initializationStatus -> { });
+
+        adView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+    }
+}
+```
+
+---
+
+## 2. Como importar manualmente bibliotecas no AIDE
+
+Se o seu projeto **NÃO usa Gradle**, siga estes passos para adicionar a biblioteca do Google Mobile Ads SDK manualmente:
+
+### **a) Baixe o arquivo JAR**
+- Você pode baixar o `.jar` do [Google Mobile Ads SDK](https://maven.google.com/web/index.html#com.google.android.gms,play-services-ads).
+- Procure por `play-services-ads`, baixe a versão desejada e extraia o arquivo `.jar` do pacote `.aar` (você pode usar apps como ZArchiver para isso).
+  - O `.aar` nada mais é que um arquivo zip. Renomeie para `.zip` e extraia.
+  - Pegue o arquivo `classes.jar` e renomeie para algo como `play-services-ads.jar`.
+
+### **b) Coloque o JAR na pasta do projeto**
+- No AIDE, abra o gerenciador de arquivos e coloque o arquivo `.jar` na pasta `libs` do seu projeto. (Se não existir, crie uma pasta chamada `libs` na raiz do seu projeto).
+
+### **c) Importe o JAR no projeto**
+- No AIDE:
+  1. Toque e segure sobre o arquivo `.jar` em `libs`.
+  2. Selecione “Adicionar como biblioteca”.
+- O AIDE agora reconhecerá o JAR como uma dependência do seu projeto.
+
+### **d) Repita para outras bibliotecas**
+- O AdMob pode precisar que você também adicione outras bibliotecas do Google Play Services. Se aparecerem erros de classes ausentes, baixe os `.jar` correspondentes e adicione também na pasta `libs`.
+
+---
+
+## 3. Observações importantes
+
+- Sempre use os IDs de teste do Google durante o desenvolvimento para evitar bloqueio da conta.
+- O método manual é mais limitado e pode ser trabalhoso para atualizar dependências ou usar recursos mais recentes do SDK.
+
+---
+
+Se você quiser, posso te orientar no passo a passo para baixar o `.aar` e extrair o `.jar`, ou ajudar em erros que possam aparecer ao importar as bibliotecas. Só me dizer onde parou ou o que está dando dúvida!
