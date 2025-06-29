@@ -1,0 +1,67 @@
+Sim, é possível usar o **AIDE** no seu smartphone Android para adicionar bibliotecas do Google AdMob ao seu projeto e testar anúncios! Vou te orientar nos passos principais:
+
+### 1. Adicionar as bibliotecas do Google AdMob
+Você precisa adicionar as dependências do AdMob (Google Mobile Ads SDK) ao seu projeto. No Android Studio, isso seria feito no arquivo `build.gradle`, mas no AIDE, normalmente há um arquivo chamado `build.gradle` ou, em projetos antigos, você pode precisar baixar e importar os `.jar` manualmente.
+
+#### Se seu projeto usa Gradle (build.gradle):
+Adicione esta linha nas dependências:
+```gradle
+implementation 'com.google.android.gms:play-services-ads:23.0.0'
+```
+*(Verifique se o número da versão é o mais recente, pode ser que já tenha uma mais nova!)*
+
+#### Se seu projeto é antigo (sem Gradle):
+Você terá que baixar o arquivo JAR do Google Mobile Ads SDK e importar manualmente para a pasta `libs` do seu projeto.
+
+### 2. Configurar o código para anúncios de teste
+
+No arquivo `AndroidManifest.xml`, adicione:
+```xml
+<meta-data
+    android:name="com.google.android.gms.ads.APPLICATION_ID"
+    android:value="ca-app-pub-3940256099942544~3347511713"/>
+```
+Esse é o ID de aplicativo de teste fornecido pelo Google.
+
+No seu código Java (por exemplo, na MainActivity):
+```java
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    MobileAds.initialize(this, initializationStatus -> {});
+
+    AdView adView = findViewById(R.id.adView);
+    AdRequest adRequest = new AdRequest.Builder().build();
+    adView.loadAd(adRequest);
+}
+```
+
+No seu layout XML (por exemplo, `activity_main.xml`):
+```xml
+<com.google.android.gms.ads.AdView
+    android:id="@+id/adView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    ads:adSize="BANNER"
+    ads:adUnitId="ca-app-pub-3940256099942544/6300978111"/>
+```
+Esse é o ID de anúncio de teste fornecido pelo Google.
+
+### 3. Teste de anúncios
+Os IDs acima são **de teste** e recomendados pelo Google para evitar bloqueios na conta durante o desenvolvimento.
+
+---
+
+**Resumo dos passos:**
+1. Adicione a biblioteca do Google AdMob no Gradle (ou baixe o .jar).
+2. Configure o `AndroidManifest.xml` com o Application ID de teste.
+3. Adicione o código de exibição de anúncios com os IDs de teste no seu código e layout.
+4. Compile no AIDE e execute no seu Android.
+
+Se quiser exemplos de código completos ou tiver dúvidas sobre como importar a biblioteca no AIDE (com Gradle ou manualmente), me avise!
