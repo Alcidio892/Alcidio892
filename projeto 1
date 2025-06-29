@@ -1,0 +1,12 @@
+class Main {
+      
+      public static void main(String[] args) {
+      
+      System.out.println("\n");
+      int idadeAtual = 18;
+      System.out.println("Idade atual: " + idadeAtual);
+
+      int idadeNoAnoQueVem = idadeAtual + 1;
+      System.out.println("Idade no ano que vem: " + idadeNoAnoQueVem);
+      }
+}
