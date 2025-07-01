@@ -1,0 +1,54 @@
+package com.alcyapks.jsonapp;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.*;
+import com.google.gson.Gson;
+
+public class MainActivity extends Activity {
+
+    EditText edtNome, edtIdade;
+    Button btnSalvar;
+    TextView txtResultado;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        edtNome = findViewById(R.id.edtNome);
+        edtIdade = findViewById(R.id.edtIdade);
+        btnSalvar = findViewById(R.id.btnSalvar);
+        txtResultado = findViewById(R.id.txtResultado);
+
+        btnSalvar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nome = edtNome.getText().toString();
+                int idade = Integer.parseInt(edtIdade.getText().toString());
+
+                Pessoa p = new Pessoa(nome, idade);
+
+                Gson gson = new Gson();
+                String json = gson.toJson(p);
+
+                Pessoa novaPessoa = gson.fromJson(json, Pessoa.class);
+
+                txtResultado.setText("JSON: " + json +
+                        "\n\nObjeto:\nNome: " + novaPessoa.nome +
+                        "\nIdade: " + novaPessoa.idade);
+            }
+        });
+    }
+}
+
+class Pessoa {
+    String nome;
+    int idade;
+
+    Pessoa(String nome, int idade) {
+        this.nome = nome;
+        this.idade = idade;
+    }
+}
